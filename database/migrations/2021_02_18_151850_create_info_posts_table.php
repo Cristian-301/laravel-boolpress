@@ -25,7 +25,7 @@ class CreateInfoPostsTable extends Migration
             // relazione fra tabelle
             $table->foreign('post_id') // <--- scelgo la chiave esterna
                 ->references('id') // <--- colonna con cui farò il match
-                ->on('post'); // <--- tabella
+                ->on('posts'); // <--- tabella
         });
     }
 
