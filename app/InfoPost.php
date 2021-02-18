@@ -12,4 +12,9 @@ class InfoPost extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    //Relazione DB
+    public function post() {
+        return $this->belongsTo('App\Post');
+    }
 }

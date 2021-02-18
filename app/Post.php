@@ -14,4 +14,9 @@ class Post extends Model
         'img_path',
         'publication_date'
     ];
+
+    //Relazione DB
+    public function infoPost() {
+        return $this->hasOne('App\InfoPost');
+    }
 }
