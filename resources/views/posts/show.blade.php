@@ -26,6 +26,10 @@
       <td>Comment status</td>
       <td>{{$post->infoPost->comment_status}}</td>
     </tr>
+    <tr>
+      <td>Post status</td>
+      <td>{{$post->infoPost->post_status}}</td>
+    </tr>
 </table>   
 @endsection
 

@@ -22,7 +22,7 @@ class PostsTableSeeder extends Seeder
             $newPost->subtitle = $faker->sentence(14);
             $newPost->text = $faker->text(7000);
             $newPost->author = $faker->name;
-            $newPost->img_path = $faker->imageUrl(640, 480, 'nature');
+            $newPost->img_path = $faker->imageUrl(640, 480, 'dogs');
             $newPost->publication_date = $faker->dateTime();
 
             // salviamo i dati

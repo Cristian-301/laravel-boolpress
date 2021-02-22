@@ -11,6 +11,14 @@ class InfoPost extends Model
      *
      * @var bool
      */
+
+     protected $fillable = [
+        'post_id',
+        'post_status',
+        'comment_status'
+
+     ];
+
     public $timestamps = false;
 
     //Relazione DB
