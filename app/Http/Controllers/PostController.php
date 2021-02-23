@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\InfoPost;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -37,7 +38,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $tags = Tag::all();
+        
+        return view('posts.create', compact('tags'));
     }
 
     /**
@@ -54,12 +57,18 @@ class PostController extends Controller
 
         $newPost = new Post();
         $newPost->fill($data);
-        $newPost->save();
+        $newPostSaveResult = $newPost->save();
 
         $data['post_id'] = $newPost->id;
         $newInfoPost = new InfoPost();
         $newInfoPost->fill($data);
-        $newInfoPost->save();
+        $newInfoPostResult = $newInfoPost->save();
+
+        if($newPostSaveResult) {
+            if(!empty($data['tags'])) {
+                $newPost->tags()->attach($data['tags']);
+            }
+        }
 
         return redirect()->route('posts.index')->with('message', 'Post ' . $newPost->name . 'creato correttamente!' );
     }
@@ -83,9 +92,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
-    {
+    {   
+        $tags = Tag::all();
         
-        return view('posts.edit', compact('post'));
+        return view('posts.edit', compact('post', 'tags'));
     }
 
     /**
@@ -106,6 +116,12 @@ class PostController extends Controller
         $data['post_id'] = $post->id;
         $infoPost->update($data);
         // $post->infoPost->update($data);
+
+        if(empty($data['tags'])) {
+            $post->tags()->detach();
+        } else {
+            $post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('posts.index')->with('message', 'Post cancellato correttamente!' );
     }

@@ -58,7 +58,14 @@
           <option value="private" {{ $post->InfoPost->comment_status == "private" ? 'selected' : '' }}>private</option>
         </select>
       </div>
+      <h2>Tags</h2>
+      @foreach ($tags as $tag)
+      <div class="form-group custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="tag-{{ $tag->id }}" name="tags[]" value="{{ $tag->id }}"
+        @if($post->tags->contains($tag->id)) checked @endif>
+        <label class="custom-control-label" for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
+      </div>
+      @endforeach
       <button type="submit" class="btn btn-primary">Aggiorna</button>
-
     </form>
 @endsection
