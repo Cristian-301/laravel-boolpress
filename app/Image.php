@@ -4,15 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Image extends Model
 {
 
     protected $fillable = [
-        'name',
-        'slug'
+        'link',
+        'alt',
+        'caption'
+
      ];
 
     public function posts() {
-        return $this->belongsToMany('App\Post');
+        return $this->belongsToMany('App\Post', 'image_post');
     }
 }

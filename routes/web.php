@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::resource('posts', 'PostController');
+
+Route::get('/blog/{slug}', 'BlogController@show');

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\InfoPost;
 use App\Tag;
+use App\Image;
+use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -39,8 +42,8 @@ class PostController extends Controller
     public function create()
     {
         $tags = Tag::all();
-        
-        return view('posts.create', compact('tags'));
+        $images = Image::all();
+        return view('posts.create', compact('tags', 'images'));
     }
 
     /**
@@ -57,16 +60,25 @@ class PostController extends Controller
 
         $newPost = new Post();
         $newPost->fill($data);
+        $newPost['slug'] = Str::slug($newPost->title, '-');
         $newPostSaveResult = $newPost->save();
-
+        // dd($newPost);
+        
         $data['post_id'] = $newPost->id;
         $newInfoPost = new InfoPost();
         $newInfoPost->fill($data);
-        $newInfoPostResult = $newInfoPost->save();
+        
+        $newInfoPost->save();
 
         if($newPostSaveResult) {
             if(!empty($data['tags'])) {
                 $newPost->tags()->attach($data['tags']);
+            }
+        }
+
+        if($newPostSaveResult) {
+            if(!empty($data['images'])) {
+                $newPost->images()->attach($data['images']);
             }
         }
 
@@ -94,8 +106,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {   
         $tags = Tag::all();
+        $images = Image::all();
         
-        return view('posts.edit', compact('post', 'tags'));
+        return view('posts.edit', compact('post', 'tags', 'images'));
     }
 
     /**
@@ -121,6 +134,12 @@ class PostController extends Controller
             $post->tags()->detach();
         } else {
             $post->tags()->sync($data['tags']);
+        }
+
+        if(empty($data['images'])) {
+            $post->images()->detach();
+        } else {
+            $post->images()->sync($data['images']);
         }
 
         return redirect()->route('posts.index')->with('message', 'Post cancellato correttamente!' );

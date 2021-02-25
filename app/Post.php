@@ -8,6 +8,7 @@ class Post extends Model
 {
     protected $fillable = [
         'title',
+        'slug',
         'subtitle',
         'text',
         'author',
@@ -26,5 +27,9 @@ class Post extends Model
 
     public function tags() {
         return $this->belongsToMany('App\Tag');
+    }
+
+    public function images() {
+        return $this->belongsToMany('App\Image', 'post_image');
     }
 }

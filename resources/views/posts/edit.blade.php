@@ -66,6 +66,16 @@
         <label class="custom-control-label" for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
       </div>
       @endforeach
+
+      <h2>Images</h2>
+      @foreach ($images as $image)
+      <div class="form-group custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="image-{{ $image->id }}" name="images[]" value="{{ $image->id }}" @if($post->images->contains($image->id)) checked @endif>
+        <label class="custom-control-label" for="image-{{ $image->id }}">
+          {{ $image->alt }} <img style="width: 40px" src="{{ $image->link }}" alt="{{ $image->alt }}">
+        </label>
+      </div>
+      @endforeach
       <button type="submit" class="btn btn-primary">Aggiorna</button>
     </form>
 @endsection
